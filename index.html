@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>アッキーのちんぽ大公開</title>
+
+<!-- ===== 自動転送(転送リンク)を有効にしたい場合は、下の1行のコメントを外す =====
+     3秒後にTikTokへ自動で飛びます。画像を見せたい場合はコメントアウトのままにして、
+     下の「TikTokで見る」ボタンで飛ばすのがおすすめ。 -->
+<!-- <meta http-equiv="refresh" content="3; url=https://lite.tiktok.com/t/ZS9S7pv8fSXUG-V7NCu/"> -->
+
+<style>
+  :root{
+    --bg:#0b0b0f; --card:#15161c; --line:#2a2c36;
+    --fg:#f5f6fa; --dim:#9aa0ae; --accent:#fe2c55; --accent2:#25f4ee;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:radial-gradient(1200px 600px at 50% -10%, #1d1f2b 0%, var(--bg) 60%) fixed;
+    color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding:24px 16px 48px;
+    display:flex;justify-content:center;
+  }
+  main{width:100%;max-width:480px}
+  .badge{
+    display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent2);border:1px solid var(--line);border-radius:999px;
+    padding:5px 12px;margin-bottom:14px;background:#00000040;
+  }
+  h1{
+    font-size:clamp(26px,8vw,38px);line-height:1.2;margin:0 0 8px;font-weight:900;
+    background:linear-gradient(90deg,var(--accent) 0%,#ff7a9c 45%,var(--accent2) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    word-break:break-word;
+  }
+  .sub{color:var(--dim);font-size:14px;margin:0 0 20px;line-height:1.6}
+  .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 22px}
+  .slot{
+    position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;
+    border:1px solid var(--line);background:var(--card);
+  }
+  .slot img{width:100%;height:100%;object-fit:cover;display:block}
+  .slot.empty{
+    border-style:dashed;border-color:#3a3d4a;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:6px;text-align:center;color:var(--dim);font-size:12px;padding:8px;
+  }
+  .slot.empty .plus{font-size:22px;color:#565a6b;line-height:1}
+  .slot.empty code{font-size:11px;color:#7f8697;background:#0000004d;border-radius:6px;padding:2px 6px;word-break:break-all}
+  .wide{grid-column:1 / -1}
+  .cta{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;padding:17px 18px;border-radius:16px;text-decoration:none;
+    font-weight:800;font-size:17px;color:#fff;
+    background:linear-gradient(100deg,var(--accent),#ff5c7e);
+    box-shadow:0 10px 30px -10px #fe2c5599;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .cta:active{transform:scale(.98)}
+  .cta:hover{box-shadow:0 14px 34px -8px #fe2c55cc}
+  .rows{display:flex;gap:10px;margin-top:12px}
+  button.ghost{
+    flex:1;padding:13px;border-radius:14px;cursor:pointer;
+    background:#ffffff0d;color:var(--fg);border:1px solid var(--line);
+    font-size:14px;font-weight:600;
+  }
+  button.ghost:active{transform:scale(.98)}
+  footer{color:#6b7280;font-size:11px;text-align:center;margin-top:26px;line-height:1.7}
+  .link{color:#8b90a0;font-size:11px;word-break:break-all;text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">Akki Channel</span>
+  <h1>アッキーのちんぽ大公開</h1>
+  <p class="sub">画像を追加するとここに並びます。下のボタンから本編へどうぞ。</p>
+
+  <div class="gallery" id="gallery"></div>
+
+  <a class="cta" id="cta" href="https://lite.tiktok.com/t/ZS9S7pv8fSXUG-V7NCu/" rel="noopener">
+    <span>TikTokで見る</span><span>→</span>
+  </a>
+
+  <div class="rows">
+    <button class="ghost" id="copyBtn" type="button">リンクをコピー</button>
+    <button class="ghost" id="shareBtn" type="button">共有する</button>
+  </div>
+
+  <div class="link" id="linkText"></div>
+
+  <footer>
+    画像は <code>images/</code> に <code>1.jpg</code>, <code>2.jpg</code> … を置くだけ。<br>
+    <span id="copyState" style="color:#25f4ee"></span>
+  </footer>
+</main>
+
+<script>
+  /* ============ 設定 ============ */
+  const LINK = "https://lite.tiktok.com/t/ZS9S7pv8fSXUG-V7NCu/";
+
+  // 表示したい画像のリスト。増やす/減らす/順番を変える場合はここを編集。
+  // public リポジトリなので images/ に置いたファイルは誰でも直接開けます。
+  const IMAGES = [
+    "images/1.jpg",
+    "images/2.jpg",
+    "images/3.jpg",
+    "images/4.jpg",
+    "images/5.jpg",
+    "images/6.jpg",
+  ];
+  /* ============================== */
+
+  document.getElementById("cta").href = LINK;
+  document.getElementById("linkText").textContent = LINK;
+
+  const gallery = document.getElementById("gallery");
+
+  IMAGES.forEach((src, i) => {
+    const slot = document.createElement("figure");
+    slot.className = "slot";
+    slot.style.margin = "0";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "画像 " + (i + 1);
+    img.loading = "lazy";
+    img.decoding = "async";
+
+    img.onerror = () => {
+      // まだ画像が無い枠は、あとで差し込む場所として点線で表示
+      slot.classList.add("empty");
+      slot.innerHTML =
+        '<span class="plus">＋</span>' +
+        '<span>ここに画像</span>' +
+        '<code>' + src + "</code>";
+    };
+
+    slot.appendChild(img);
+    gallery.appendChild(slot);
+  });
+
+  // コピー
+  const copyBtn = document.getElementById("copyBtn");
+  const copyState = document.getElementById("copyState");
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(LINK);
+    } catch (e) {
+      const t = document.createElement("textarea");
+      t.value = LINK;
+      t.style.position = "fixed";
+      t.style.opacity = "0";
+      document.body.appendChild(t);
+      t.select();
+      document.execCommand("copy");
+      t.remove();
+    }
+    copyState.textContent = "リンクをコピーしました";
+    setTimeout(() => (copyState.textContent = ""), 2000);
+  });
+
+  // 共有 (対応端末のみ。非対応ならコピーにフォールバック)
+  document.getElementById("shareBtn").addEventListener("click", async () => {
+    if (navigator.share) {
+      try { await navigator.share({ title: document.title, url: LINK }); } catch (e) {}
+    } else {
+      copyBtn.click();
+    }
+  });
+</script>
+</body>
+</html>
